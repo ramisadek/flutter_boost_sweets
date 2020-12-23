@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boost_sweets/services/add_to_fav_services.dart';
 import 'package:flutter_boost_sweets/services/get_categories_service.dart';
@@ -37,6 +38,39 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
     isLoading = false;
     setState(() {});
   }
+  double _currentSliderValue = 20;
+
+  void displayBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (ctx) {
+          return StatefulBuilder(
+            builder: (cont,setState){
+              return Container(
+                height: MediaQuery.of(context).size.height  * 0.4,
+                child: Center(
+                  child: Slider(
+                    value: _currentSliderValue,
+                    min: 0,
+                    max: 100,
+                    activeColor: Colors.pink,
+                    divisions: 5,
+                    label: _currentSliderValue.round().toString(),
+                    onChanged: (double value) {
+                      setState(() {
+                        _currentSliderValue = value;
+                      });
+                    },
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
 
   @override
   void initState() {
@@ -49,6 +83,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF9267FD),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF9267FD),
+        title: Image.asset("assets/icons/logo.png",scale: 5,),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: null,
+            icon: Image.asset("assets/icons/search.png",scale: 3,),
+          )
+        ],
+      ),
       body:
         isLoading?
             Center(
@@ -58,33 +104,93 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                 controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)),
               ),
             ):
-        SafeArea(
-          child: Center(
-              child: Column(
-                children: [
-                  Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-                  Text("some stupid UI here"),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-                  SizedBox(
-                    height: 120,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: categoriesList.length,
-                        itemBuilder: (context,index) {
-                          return InkWell(
-                            onTap: () => FavService().addToFavServices(categoriesList[index].categoryId),
-                            child: CategoryCard(
-                              image: "${categoriesList[index].categoryImage}",
-                              title: "${categoriesList[index].categoryTitle}",
-                            ),
-                          );
-                        }
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top: 20)),
+              SizedBox(
+                height: 120,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
                     ),
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),
+                    CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),CategoryCard(
+                      image: "https://www.julieseatsandtreats.com/wp-content/uploads/2020/06/Rainbow-Ice-Cream-14-of-16.jpg",
+                      title: "ice cream",
+                    ),
+
+                  ],
+                )
+              ),
+              Padding(padding: EdgeInsets.only(top: 20)),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30)
                   )
-                ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: ()=> displayBottomSheet(context),
+                          child: Icon(Icons.add,color: Colors.white,),
+                        ),
+                        Padding(padding: EdgeInsets.symmetric(horizontal: 5),),
+                        Icon(Icons.favorite_border_rounded,color: Colors.white)
+                      ],
+                    ),
+                    Text("50 7aba w 7aba w shewaia",style: TextStyle(color: Colors.white),),
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                child: ListView(
+                  primary: false,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    Image.asset("assets/icons/card.png",scale: 3),
+                    Image.asset("assets/icons/card.png",scale: 3),
+                    Image.asset("assets/icons/card.png",scale: 3),
+                    Image.asset("assets/icons/card.png",scale: 3),
+                  ],
+                ),
               )
+            ],
           ),
         )
     );

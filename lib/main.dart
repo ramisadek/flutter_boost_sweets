@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boost_sweets/tab_bar_screen.dart';
 
 import 'home.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: Home(),
+      home: TabBarScreen(),
     );
   }
 }
